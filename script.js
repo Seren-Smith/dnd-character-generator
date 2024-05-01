@@ -47,12 +47,15 @@ function loadRaceAndClassData() {
     
     const race = raceSelect.value;
     const className = classSelect.value;
-
+    
+    if (className.toLowerCase() === "random") {
+        className = getRandomOption(classSelect);
+    }
     const stats = generateRandomStats();
 
     // Display the selected race and class on the HTML page
     const characterOutput = document.getElementById('characterOutput');
-    characterOutput.innerHTML = `<p>Class: ${className}, Race: ${race}</p>`;
+    characterOutput.innerHTML = `<p>Race: ${race}, Class: ${className}</p>`;
 
     characterOutput.innerHTML += '<p>Stats:</p><ul>';
     for (const stat in stats) {
