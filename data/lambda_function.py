@@ -1,13 +1,9 @@
 import json
 import random
 
-def load_json_data():
-    # Simulating loading JSON data
-    data = {
-        "races": ["Halfling", "Gnome"],
-        "classes": ["Wizard", "Rogue"]
-    }
-    return data
+def load_json_data(filename):
+    with open(filename, 'r') as file:
+        return json.load(file)
 
 def generate_basic_stats():
     return {
