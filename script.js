@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             const races = data.races.map(race => race.name);
-            races.unshift("Random"); // Add "Random" option at the beginning
             populateDropdown('raceSelect', races);
         });
 
@@ -11,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             const classes = data.classes.map(cls => cls.name);
-            classes.unshift("Random"); // Add "Random" option at the beginning
             populateDropdown('classSelect', classes);
         });
 });
@@ -47,19 +45,8 @@ function loadRaceAndClassData() {
     const raceSelect = document.getElementById('raceSelect');
     const classSelect = document.getElementById('classSelect');
     
-    let race, className;
-    
-    if (raceSelect.value === "Random") {
-        race = getRandomOption(raceSelect);
-    } else {
-        race = raceSelect.value;
-    }
-    
-    if (classSelect.value === "Random") {
-        className = getRandomOption(classSelect);
-    } else {
-        className = classSelect.value;
-    }
+    const race = raceSelect.value;
+    const className = classSelect.value;
 
     const stats = generateRandomStats();
 
@@ -72,10 +59,4 @@ function loadRaceAndClassData() {
         characterOutput.innerHTML += `<li>${stat}: ${stats[stat]}</li>`;
     }
     characterOutput.innerHTML += '</ul>';
-}
-
-function getRandomOption(select) {
-    const options = select.options;
-    const randomIndex = Math.floor(Math.random() * options.length);
-    return options[randomIndex].value;
 }
