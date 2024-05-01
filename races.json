@@ -4,14 +4,14 @@
             "name": "Halfling",
             "bonuses": {
                 "Dexterity": 2,
-                "Strength": -2,
+                "Strength": -2
             }
         },
         {
             "name": "Gnome",
             "bonuses": {
                 "Constitution": 2,
-                "Strength": -2,
+                "Strength": -2
             }
         }
     ]
