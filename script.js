@@ -29,6 +29,19 @@ function populateDropdown(selectId, options) {
     });
 }
 
+function generateRandomStats() {
+    const randomStat = () => Math.floor(Math.random() * 14) + 5; // Generates a random number between 5 and 18
+
+    return {
+        Strength: randomStat(),
+        Dexterity: randomStat(),
+        Constitution: randomStat(),
+        Intelligence: randomStat(),
+        Wisdom: randomStat(),
+        Charisma: randomStat()
+    };
+}
+
 function loadRaceAndClassData() {
     // Here, define logic to calculate and display character data based on selections.
     const raceSelect = document.getElementById('raceSelect');
@@ -47,10 +60,18 @@ function loadRaceAndClassData() {
     } else {
         className = classSelect.value;
     }
-    
+
+    const stats = generateRandomStats();
+
     // Display the selected race and class on the HTML page
     const characterOutput = document.getElementById('characterOutput');
     characterOutput.innerHTML = `<p>Class: ${className}, Race: ${race}</p>`;
+
+    characterOutput.innerHTML += '<p>Stats:</p><ul>';
+    for (const stat in stats) {
+        characterOutput.innerHTML += `<li>${stat}: ${stats[stat]}</li>`;
+    }
+    characterOutput.innerHTML += '</ul>';
 }
 
 function getRandomOption(select) {
