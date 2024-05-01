@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('data/races.json')
+    fetch('races.json')
         .then(response => response.json())
         .then(data => populateDropdown('raceSelect', data.races.map(race => race.name)));
 
-    fetch('data/classes.json')
+    fetch('classes.json')
         .then(response => response.json())
         .then(data => populateDropdown('classSelect', data.classes.map(cls => cls.name)));
 });
