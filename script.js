@@ -1,20 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     fetchDropdownData();
 
-    // Fetching dropdown data from Lambda
     function fetchDropdownData() {
-        axios.get('https://your_lambda_url')
+        axios.get('https://your_lambda_url/get_options')
             .then(function(response) {
-                const data = response.data;
-                populateDropdown('raceSelect', data.races);
-                populateDropdown('classSelect', data.classes);
+                populateDropdown('raceSelect', response.data.races);
+                populateDropdown('classSelect', response.data.classes);
             })
             .catch(function(error) {
                 console.error('Error fetching dropdown data:', error);
             });
     }
 
-    // Helper function to populate dropdowns
     function populateDropdown(selectId, options) {
         const select = document.getElementById(selectId);
         options.forEach(option => {
@@ -30,7 +27,7 @@ function loadRaceAndClassData() {
     const race = document.getElementById('raceSelect').value;
     const className = document.getElementById('classSelect').value;
     if (race && className) {
-        axios.get('https://your_lambda_url_with_params', {
+        axios.get('https://your_lambda_url/get_data', {
             params: { race_name: race, class_name: className }
         })
         .then(function (response) {
