@@ -9,13 +9,21 @@
     <h1>Dungeons & Dragons Character Generator</h1>
     <div id="characterForm">
         <select id="classSelect">
-            {% for class in classes %}
+            <option value="">Select Base Class</option>
+            {% for class in base_classes %}
             <option value="{{ class }}">{{ class }}</option>
             {% endfor %}
         </select>
-        <select id="raceSelect">
-            {% for race in races %}
-            <option value="{{ race }}">{{ race }}</option>
+        <select id="prestigeSelect">
+            <option value="">Select Prestige Class (Optional)</option>
+            {% for prestige in prestige_classes %}
+            <option value="{{ prestige }}">{{ prestige }}</option>
+            {% endfor %}
+        </select>
+        <select id="multiClassSelect">
+            <option value="">Select Secondary Class for Multiclass (Optional)</option>
+            {% for class in base_classes %}
+            <option value="{{ class }}">{{ class }}</option>
             {% endfor %}
         </select>
         <button onclick="generateCharacter()">Generate Character</button>
