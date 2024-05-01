@@ -1,12 +1,15 @@
 import json
 import random
 
-def load_json_data(filename):
-    with open(filename, 'r') as file:
-        return json.load(file)
+def load_json_data():
+    # Simulating loading JSON data
+    data = {
+        "races": ["Halfling", "Gnome"],
+        "classes": ["Wizard", "Rogue"]
+    }
+    return data
 
 def generate_basic_stats():
-    """Generates basic D&D stats."""
     return {
         "Strength": random.randint(3, 18),
         "Dexterity": random.randint(3, 18),
@@ -17,30 +20,20 @@ def generate_basic_stats():
     }
 
 def lambda_handler(event, context):
-    # Assuming JSON files are loaded correctly
-    races = load_json_data('data/races.json')['races']
-    classes = load_json_data('data/classes.json')['classes']
+    if event['path'] == "/dropdowns":
+        data = load_json_data()
+        return {
+            'statusCode': 200,
+            'body': json.dumps({'races': data['races'], 'classes': data['classes']})
+        }
+    elif event['path'] == "/stats":
+        stats = generate_basic_stats()
+        race_name = event['queryStringParameters']['race_name']
+        class_name = event['queryStringParameters']['class_name']
+        # Simulating race and class retrieval, normally you'd apply bonuses here
+        return {
+            'statusCode': 200,
+            'body': json.dumps({'race': race_name, 'class': class_name, 'stats': stats})
+        }
 
-    # Parse query parameters
-    race_name = event['queryStringParameters'].get('race_name', '').lower()
-    class_name = event['queryStringParameters'].get('class_name', '').lower()
-
-    # Find race and class
-    found_race = next((r for r in races if r['name'].lower() == race_name), None)
-    found_class = next((c for c in classes if c['name'].lower() == class_name), None)
-
-    # Generate stats and apply any race bonuses
-    stats = generate_basic_stats()
-    if found_race and 'bonuses' in found_race:
-        for stat, bonus in found_race['bonuses'].items():
-            stats[stat] += bonus
-
-    return {
-        'statusCode': 200,
-        'headers': {'Content-Type': 'application/json'},
-        'body': json.dumps({
-            'race': found_race['name'] if found_race else 'Race not found',
-            'class': found_class['name'] if found_class else 'Class not found',
-            'stats': stats
-        })
-    }
+    return {'statusCode': 400, 'body': 'No valid path provided'}
