@@ -1,53 +1,28 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Fetch and populate dropdown data as soon as the page loads
-    fetchDropdownData();
-});
+    fetch('races.json')
+        .then(response => response.json())
+        .then(data => populateDropdown('raceSelect', data.races.map(race => race.name)));
 
-function fetchDropdownData() {
-    axios.get('https://your_lambda_url/dropdowns')
-        .then(function(response) {
-            populateDropdown('raceSelect', response.data.races);
-            populateDropdown('classSelect', response.data.classes);
-        })
-        .catch(function(error) {
-            console.error('Error fetching dropdown data:', error);
-        });
-}
+    fetch('classes.json')
+        .then(response => response.json())
+        .then(data => populateDropdown('classSelect', data.classes.map(cls => cls.name)));
+});
 
 function populateDropdown(selectId, options) {
     const select = document.getElementById(selectId);
+    select.innerHTML = '<option value="">Select an Option</option>';
     options.forEach(option => {
         let opt = document.createElement('option');
         opt.value = option;
-        opt.innerHTML = option;
+        opt.textContent = option;
         select.appendChild(opt);
     });
 }
 
 function loadRaceAndClassData() {
+    // Here, define logic to calculate and display character data based on selections.
     const race = document.getElementById('raceSelect').value;
     const className = document.getElementById('classSelect').value;
-    if (race && className) {
-        axios.get('https://your_lambda_url/stats', {
-            params: { race_name: race, class_name: className }
-        })
-        .then(function (response) {
-            const data = response.data;
-            let output = `<h2>Character Details</h2>`;
-            output += `<p>Race: ${data.race}</p>`;
-            output += `<p>Class: ${data.class}</p>`;
-            output += `<p>Stats:</p><ul>`;
-            Object.entries(data.stats).forEach(([key, value]) => {
-                output += `<li>${key}: ${value}</li>`;
-            });
-            output += `</ul>`;
-            document.getElementById('characterOutput').innerHTML = output;
-        })
-        .catch(function (error) {
-            console.error('Error:', error);
-            document.getElementById('characterOutput').innerHTML = `<p>Error loading character data. Please try again.</p>`;
-        });
-    } else {
-        document.getElementById('characterOutput').innerHTML = `<p>Please select both a race and a class to see details.</p>`;
-    }
+    console.log(`Selected Race: ${race}, Selected Class: ${className}`);
+    // Additional logic to handle races and classes can be added here.
 }
