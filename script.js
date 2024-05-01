@@ -41,13 +41,13 @@ function loadRaceAndClassData() {
     let race, className;
     
     if (raceSelect.value === "Random") {
-        race = getRandomOption(raceSelect);
+        race = getRandomOption(Array.from(raceSelect.options));
     } else {
         race = raceSelect.value;
     }
     
     if (classSelect.value === "Random") {
-        className = getRandomOption(classSelect);
+        className = getRandomOption(Array.from(classSelect.options));
     } else {
         className = classSelect.value;
     }
@@ -57,8 +57,7 @@ function loadRaceAndClassData() {
     characterOutput.innerHTML = `<p>Class: ${className}, Race: ${race}</p>`;
 }
 
-function getRandomOption(select) {
-    const options = select.options;
+function getRandomOption(options) {
     const randomIndex = Math.floor(Math.random() * (options.length - 1)) + 1; // Exclude "Random" option
     return options[randomIndex].value;
 }
