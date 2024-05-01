@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             const races = data.races.map(race => race.name);
+            races.unshift("Random"); // Add "Random" option at the beginning
             populateDropdown('raceSelect', races);
         });
 
@@ -10,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             const classes = data.classes.map(cls => cls.name);
+            classes.unshift("Random"); // Add "Random" option at the beginning
             populateDropdown('classSelect', classes);
         });
 });
@@ -18,15 +20,9 @@ function populateDropdown(selectId, options) {
     const select = document.getElementById(selectId);
     select.innerHTML = '';
     
-    // Add Random option
-    let opt = document.createElement('option');
-    opt.value = "Random";
-    opt.textContent = "Random";
-    select.appendChild(opt);
-    
-    // Populate other options
+    // Populate options
     options.forEach(option => {
-        opt = document.createElement('option');
+        let opt = document.createElement('option');
         opt.value = option;
         opt.textContent = option;
         select.appendChild(opt);
@@ -41,13 +37,13 @@ function loadRaceAndClassData() {
     let race, className;
     
     if (raceSelect.value === "Random") {
-        race = getRandomOption(Array.from(raceSelect.options));
+        race = getRandomOption(raceSelect);
     } else {
         race = raceSelect.value;
     }
     
     if (classSelect.value === "Random") {
-        className = getRandomOption(Array.from(classSelect.options));
+        className = getRandomOption(classSelect);
     } else {
         className = classSelect.value;
     }
@@ -57,7 +53,8 @@ function loadRaceAndClassData() {
     characterOutput.innerHTML = `<p>Class: ${className}, Race: ${race}</p>`;
 }
 
-function getRandomOption(options) {
-    const randomIndex = Math.floor(Math.random() * (options.length - 1)) + 1; // Exclude "Random" option
+function getRandomOption(select) {
+    const options = select.options;
+    const randomIndex = Math.floor(Math.random() * options.length);
     return options[randomIndex].value;
 }
