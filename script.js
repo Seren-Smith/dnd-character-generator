@@ -23,6 +23,8 @@ function loadRaceAndClassData() {
     // Here, define logic to calculate and display character data based on selections.
     const race = document.getElementById('raceSelect').value;
     const className = document.getElementById('classSelect').value;
-    console.log(`Selected Race: ${race}, Selected Class: ${className}`);
-    // Additional logic to handle races and classes can be added here.
+    
+    // Display the selected race and class on the HTML page
+    const characterOutput = document.getElementById('characterOutput');
+    characterOutput.innerHTML = `<p>Class: ${className}, Race: ${race}</p>`;
 }
