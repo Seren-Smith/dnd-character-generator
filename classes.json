@@ -1,0 +1,20 @@
+
+{
+  "classes": [
+    {
+      "name": "Wizard",
+      "type": "base",
+      "abilities": ["Spellcasting", "Arcane Bond"],
+      "requirements": {}
+    },
+    {
+      "name": "Eldritch Knight",
+      "type": "prestige",
+      "abilities": ["Enhanced Weapon Bond", "Spellcasting"],
+      "requirements": {
+        "feat": "Martial Weapon Proficiency",
+        "spellcasting": "Ability to cast 3rd-level arcane spells"
+      }
+    }
+  ]
+}
